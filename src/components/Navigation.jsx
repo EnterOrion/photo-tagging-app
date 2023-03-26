@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
-
+import useLevelStore from "../contexts/LevelContext";
 
 const Navigation = () => {
     const [time, setTime] = useState(0);
+    const difficulty = useLevelStore((state) => state.difficulty);
+    //const changeDifficulty = useLevelStore((state) => state.changeDifficulty)
     
     const formatTime = (time) => {
         const getSeconds = `0${Math.round(time % 60)}`.slice(-2);
@@ -30,8 +32,9 @@ const Navigation = () => {
                 </div>
                 <div className="info-column">
                     <li>{formatTime(time)}</li>
-                    <li>Difficulty</li>
-                    <li className="nav-about">About</li>
+                    <li>Difficulty: <span className="difficulty-display">{difficulty}</span></li>
+                    <li className="nav-info">Leaderboard</li>
+                    <li className="nav-info">About</li>
                 </div>
             </ul>
         </nav>

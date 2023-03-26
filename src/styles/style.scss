@@ -1,4 +1,5 @@
 $primary-color: hsl(243, 61%, 12%);
+$secondary-color: hsl(165, 95%, 68%);
 
 :root {
     box-sizing: border-box;
@@ -15,6 +16,9 @@ img {
     height: auto;
 }
 
+.difficulty-display {
+    color: $secondary-color;
+}
 
 nav {
     background-color: $primary-color;
@@ -52,16 +56,16 @@ ul {
 
 .info-column {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     letter-spacing: .1rem;
     align-items: center;
 }
 
-.nav-about {
+.info-column:last-child {
     margin-right: 1rem;
 }
 
-.nav-about:hover {
-    color: hsl(243, 61%, 80%);
+.nav-info:hover {
+    color: $secondary-color;
     cursor: pointer;
 }
