@@ -1,0 +1,67 @@
+$primary-color: hsl(243, 61%, 12%);
+
+:root {
+    box-sizing: border-box;
+}
+
+body, html {
+    padding: 0;
+    margin: 0;
+    background-color: $primary-color;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+nav {
+    background-color: $primary-color;
+    color: white;
+    padding: 1rem;
+    font-family: 'Playfair Display', serif;
+    
+   
+}
+
+ul { 
+    margin: 0;
+    list-style: none;
+    display: flex;
+   justify-content: space-between;
+}
+
+.logo-text {
+    font-family: 'Big Shoulders Display', cursive;
+    font-size: 2rem;
+}
+
+
+.logo-text::before {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    content: "";
+    background-size: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+    margin-bottom: 2px;
+    background-image: url(../assets/images/cat-logo.png);
+  }
+
+.info-column {
+    display: flex;
+    gap: 1rem;
+    letter-spacing: .1rem;
+    align-items: center;
+}
+
+.nav-about {
+    margin-right: 1rem;
+}
+
+.nav-about:hover {
+    color: hsl(243, 61%, 80%);
+    cursor: pointer;
+}
