@@ -14,6 +14,7 @@ body, html {
 img {
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
 img:hover {
@@ -109,6 +110,11 @@ ul {
 .red {
     @extend .alert; 
     background-color: rgb(163, 6, 6);
+    display: none;
+}
+
+.red[fade="1"] {
+    display: block;
     -webkit-animation: hideAlert 3s forwards; 
     animation: hideAlert 3s forwards;
 }
