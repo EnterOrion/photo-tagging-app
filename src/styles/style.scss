@@ -1,152 +1,203 @@
 $primary-color: hsl(243, 61%, 12%);
 $secondary-color: hsl(165, 95%, 68%);
+$primary-font: "Roboto", sans-serif;
+$secondary-font: "Playfair Display", serif;
 
 :root {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body, html {
-    padding: 0;
-    margin: 0;
-    background-color: $primary-color;
+body,
+html {
+  padding: 0;
+  margin: 0;
+  background-color: $primary-color;
 }
 
 img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 img:hover {
-    cursor:crosshair;
+  cursor: crosshair;
 }
 
 .difficulty-display {
-    color: $secondary-color;
+  color: $secondary-color;
 }
 
 nav {
-    background-color: $primary-color;
-    color: white;
-    padding: 1rem;
-    font-family: 'Playfair Display', serif;
-    
-   
+  background-color: $primary-color;
+  color: white;
+  padding: 1rem;
+  font-family: $secondary-font;
 }
 
-ul { 
-    margin: 0;
-    list-style: none;
-    display: flex;
-   justify-content: space-between;
+ul {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
 }
 
 .logo-text {
-    font-family: 'Big Shoulders Display', cursive;
-    font-size: 2rem;
+  font-family: "Big Shoulders Display", cursive;
+  font-size: 2rem;
 }
 
-
 .logo-text::before {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    content: "";
-    background-size: cover;
-    margin-right: 10px;
-    vertical-align: middle;
-    margin-bottom: 2px;
-    background-image: url(../assets/images/cat-logo.png);
-  }
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  content: "";
+  background-size: cover;
+  margin-right: 10px;
+  vertical-align: middle;
+  margin-bottom: 2px;
+  background-image: url(../assets/images/cat-logo.png);
+}
 
 .info-column {
-    display: flex;
-    gap: 2rem;
-    letter-spacing: .1rem;
-    align-items: center;
+  display: flex;
+  gap: 2rem;
+  letter-spacing: 0.1rem;
+  align-items: center;
 }
 
 .info-column:last-child {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
 .nav-info:hover {
-    color: $secondary-color;
-    cursor: pointer;
+  color: $secondary-color;
+  cursor: pointer;
 }
 
 .alert {
-    font-family: 'Roboto', sans-serif;
-    position: fixed;
-    top: 5rem;
-    left: 50%;
-    width: max-content;
-    transform: translateX(-50%);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    color: white;
+  font-family: $primary-font;
+  position: fixed;
+  top: 5rem;
+  left: 50%;
+  width: max-content;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: white;
 }
 
 .green {
-    @extend .alert;
-    background-color: hsl(120, 100%, 37%);
-    -webkit-animation: hideAlert 3s forwards; 
-    animation: hideAlert 3s forwards;
-   
+  @extend .alert;
+  background-color: hsl(120, 100%, 37%);
+  -webkit-animation: hideAlert 3s forwards;
+  animation: hideAlert 3s forwards;
 }
 
 @keyframes hideAlert {
-    0%   {opacity: 1;}
-    90%  {opacity: 1;}
-    100% {opacity: 0;}
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 @-webkit-keyframes hideAlert {
-    0%   {opacity: 1;}
-    90%  {opacity: 1;}
-    100% {opacity: 0;}
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
-
 .red {
-    @extend .alert; 
-    background-color: rgb(163, 6, 6);
-    display: none;
+  @extend .alert;
+  background-color: rgb(163, 6, 6);
+  display: none;
 }
 
 .red[fade="1"] {
-    display: block;
-    -webkit-animation: hideAlert 3s forwards; 
-    animation: hideAlert 3s forwards;
+  display: block;
+  -webkit-animation: hideAlert 3s forwards;
+  animation: hideAlert 3s forwards;
 }
 
 .about {
-    @extend .alert;
-    background-color: $primary-color;
-    text-align: center;
-    position: absolute;
-    top: 6rem;
+  @extend .alert;
+  background-color: $primary-color;
+  text-align: center;
+  position: absolute;
+  top: 6rem;
 
-    h1 {
-        color: $secondary-color;
-    }
+  h1 {
+    color: $secondary-color;
+  }
 }
 
 .about-text {
-    max-width: 600px;
-    line-height: 1.6;
+  max-width: 600px;
+  line-height: 1.6;
 }
 
 .close-button {
-    color: white;
-    margin-right: 100%;
-    background: none;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+  color: white;
+  margin-right: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
 .close-button:hover {
+  color: $secondary-color;
+}
+
+table {
+  display: block;
+  position: fixed;
+  top: 5rem;
+  left: 25%;
+  background-color: $primary-color;
+  color: white;
+  width: 50%;
+  font-family: $primary-font;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  caption {
     color: $secondary-color;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  th,
+  td {
+    text-align: left;
+    width: 10rem;
+  }
+  thead,
+  tbody {
+    width: 100%;
+  }
+
+  tr,
+  .row {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+  .row {
+    border-bottom: 1px solid white;
+  }
 }

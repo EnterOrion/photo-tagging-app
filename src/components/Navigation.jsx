@@ -4,6 +4,7 @@ import useLevelStore from "../contexts/LevelContext";
 const Navigation = () => {
   const [time, setTime] = useState(0);
   const [about, setAbout] = useState(false);
+  const [leaderboard, setLeaderboard] = useState(false);
   const difficulty = useLevelStore((state) => state.difficulty);
 
   const formatTime = (time) => {
@@ -32,6 +33,14 @@ const Navigation = () => {
     setAbout(false);
   };
 
+  const boardManager = () => {
+    setLeaderboard(true);
+  };
+
+  const closeBoard = () => {
+    setLeaderboard(false);
+  };
+
   return (
     <div>
       <nav>
@@ -45,7 +54,9 @@ const Navigation = () => {
               Difficulty:{" "}
               <span className="difficulty-display">{difficulty}</span>
             </li>
-            <li className="nav-info">Leaderboard</li>
+            <li className="nav-info" onClick={boardManager}>
+              Leaderboard
+            </li>
             <li className="nav-info" onClick={clickManager}>
               About
             </li>
@@ -72,6 +83,36 @@ const Navigation = () => {
             </p>
           </div>
         </div>
+      )}
+      {leaderboard && (
+        <table>
+          <button className="close-button" onClick={closeBoard}>
+            X
+          </button>
+          <caption>
+            <span></span>
+            Leaderboard
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Place</th>
+              <th scope="col">Name</th>
+              <th scope="col">Time (seconds)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="row">
+              <td>1</td>
+              <td>Test</td>
+              <td>1.02</td>
+            </tr>
+            <tr className="row">
+              <td>2</td>
+              <td>Test2</td>
+              <td>1.022</td>
+            </tr>
+          </tbody>
+        </table>
       )}
     </div>
   );
