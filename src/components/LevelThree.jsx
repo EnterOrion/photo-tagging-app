@@ -8,9 +8,6 @@ const LevelThree = () => {
   const [coordinates, setCoordinates] = useState([]);
   const [fade, setFade] = useState(0);
 
-  // eslint-disable-next-line no-unused-vars
-  const [catFound, setCatFound] = useState(true);
-
   const catPicRef = useRef();
   const navHeight = 74.41;
 
@@ -18,7 +15,6 @@ const LevelThree = () => {
     await getDocs(collection(db, "coordinates ")).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
       setCoordinates(newData);
-      console.log(coordinates);
     });
   };
 
@@ -32,8 +28,6 @@ const LevelThree = () => {
 
     let relX = e.pageX / width;
     let relY = (e.pageY - navHeight) / height;
-    console.log(relX);
-    console.log(relY);
 
     const nearX = Math.abs(relX - coordinates[1]["x1"]) < 0.01;
     const nearY = Math.abs(relY - coordinates[1]["y1"]) < 0.01;
