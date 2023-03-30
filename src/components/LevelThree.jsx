@@ -7,6 +7,7 @@ const LevelThree = () => {
   const [positiveAlert, setPositiveAlert] = useState(false);
   const [coordinates, setCoordinates] = useState([]);
   const [fade, setFade] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   const catPicRef = useRef();
   const navHeight = 74.41;
@@ -34,6 +35,9 @@ const LevelThree = () => {
 
     if (nearX && nearY) {
       setPositiveAlert(true);
+      setTimeout(() => {
+        setGameOver(true);
+      }, 3000);
     } else {
       setFade(1);
     }
@@ -45,6 +49,7 @@ const LevelThree = () => {
       <div className="red" fade={fade} onAnimationEnd={() => setFade(0)}>
         Try again!
       </div>
+      {gameOver && <div className="green">All cats found! 😸</div>}
       <img
         ref={catPicRef}
         src={LevelThreeBackground}
