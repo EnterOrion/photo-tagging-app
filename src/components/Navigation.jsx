@@ -21,7 +21,6 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    console.log(time - 3);
     setTime(0);
   }, [difficulty]);
 

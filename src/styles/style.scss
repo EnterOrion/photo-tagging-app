@@ -201,3 +201,58 @@ table {
     border-bottom: 1px solid white;
   }
 }
+
+.blue {
+  color: $primary-color;
+  font-size: 0px;
+}
+
+form {
+  @extend .alert;
+  background-color: $primary-color;
+  text-align: center;
+  padding: 2rem;
+
+  h1 {
+    margin-bottom: 3rem;
+    color: $secondary-color;
+  }
+  p {
+    margin-bottom: 0.25rem;
+    text-align: left;
+    margin-left: 4rem;
+    font-weight: bold;
+  }
+  input {
+    all: unset;
+    background-color: white;
+    margin-right: 0.5rem;
+    padding: 0.2rem;
+    border-radius: 1rem;
+    text-align: left;
+    color: black;
+  }
+
+  input:focus {
+    border: 1px solid black;
+  }
+
+  .input-section {
+    margin-left: 0.5rem;
+  }
+
+  button {
+    color: white;
+    font-family: $primary-font;
+    border: 1px solid white;
+    font-weight: bold;
+    background: none;
+    padding: 0.4rem;
+    cursor: pointer;
+    outline: inherit;
+  }
+
+  button:hover {
+    border: 1px solid $secondary-color;
+  }
+}
