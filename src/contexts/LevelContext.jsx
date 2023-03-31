@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const useLevelStore = create((set) => ({
-  difficulty: "Hard",
+  difficulty: "Easy",
   changeDifficulty: (newDifficulty) =>
     set((state) => ({ difficulty: newDifficulty })),
 }));

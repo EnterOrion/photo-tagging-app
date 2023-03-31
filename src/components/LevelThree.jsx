@@ -3,6 +3,7 @@ import LevelThreeBackground from "../assets/images/hard-level.jpg";
 import { db, auth } from "../firebase/init";
 import { getDocs, collection } from "firebase/firestore";
 import HighScoreForm from "./highScoreForm";
+import Navigation from "./Navigation";
 
 const LevelThree = () => {
   const [positiveAlert, setPositiveAlert] = useState(false);
@@ -81,6 +82,7 @@ const LevelThree = () => {
 
   return (
     <div>
+      <Navigation level="levelThree" />
       {positiveAlert && <div className="green">Cat found! 🐱</div>}
       <div className="red" fade={fade} onAnimationEnd={() => setFade(0)}>
         Try again!

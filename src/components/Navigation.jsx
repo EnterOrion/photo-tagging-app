@@ -1,11 +1,31 @@
 import React, { useEffect, useState } from "react";
 import useLevelStore from "../contexts/LevelContext";
+import { db, auth } from "../firebase/init";
+import { getDocs, collection } from "firebase/firestore";
 
-const Navigation = () => {
+const Navigation = ({ level }) => {
   const [time, setTime] = useState(0);
   const [about, setAbout] = useState(false);
   const [leaderboard, setLeaderboard] = useState(false);
+  const [topScores, setTopScores] = useState([]);
   const difficulty = useLevelStore((state) => state.difficulty);
+
+  useEffect(() => {
+    const query = db.collection(level).orderBy("time", "asc").limit(10);
+
+    const unsub = query.onSnapshot((snap) => {
+      const documents = snap.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      console.log(`Getting ${collection}`);
+      setTopScores(documents);
+      console.log(topScores);
+    });
+    return () => unsub();
+  }, []);
 
   const formatTime = (time) => {
     const getSeconds = `0${Math.round(time % 60)}`.slice(-2);
@@ -100,16 +120,15 @@ const Navigation = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="row">
-              <td>1</td>
-              <td>Test</td>
-              <td>1.02</td>
-            </tr>
-            <tr className="row">
-              <td>2</td>
-              <td>Test2</td>
-              <td>1.022</td>
-            </tr>
+            {topScores.map((item, i) => {
+              return [
+                <tr key={i}>
+                  <td>{i + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.time}</td>
+                </tr>,
+              ];
+            })}
           </tbody>
         </table>
       )}

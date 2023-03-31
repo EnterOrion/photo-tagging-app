@@ -4,6 +4,7 @@ import { getDocs, collection } from "firebase/firestore";
 import LevelOneBackground from "../assets/images/easy-level.jpg";
 import checkInside from "./mappingHelperFunction";
 import HighScoreForm from "./highScoreForm";
+import Navigation from "./Navigation";
 
 const LevelOne = () => {
   class Point {
@@ -94,6 +95,7 @@ const LevelOne = () => {
 
   return (
     <div>
+      <Navigation level="levelOne" />
       {positiveAlert && <div className="green">Cat found! 🐱</div>}
       <div className="red" fade={fade} onAnimationEnd={() => setFade(0)}>
         Try again!
