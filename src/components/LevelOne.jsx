@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import useLevelStore from "../contexts/LevelContext";
 import { db, auth } from "../firebase/init";
 import { getDocs, collection } from "firebase/firestore";
 import LevelOneBackground from "../assets/images/easy-level.jpg";
@@ -14,11 +13,13 @@ const LevelOne = () => {
       this.y = y;
     }
   }
-  const changeDifficulty = useLevelStore((state) => state.changeDifficulty);
+
   const [positiveAlert, setPositiveAlert] = useState(false);
   const [fade, setFade] = useState(0);
   const [coordinates, setCoordinates] = useState([]);
   const [totalTime, setTotalTime] = useState(0);
+  const [showForm, setShowForm] = useState(false);
+  const [topScores, setTopScores] = useState([]);
 
   const catPicRef = useRef();
 
@@ -33,6 +34,23 @@ const LevelOne = () => {
 
   useEffect(() => {
     fetchPost();
+  }, []);
+
+  useEffect(() => {
+    const query = db.collection("levelOne").orderBy("time", "asc").limit(10);
+
+    const unsub = query.onSnapshot((snap) => {
+      const documents = snap.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      console.log(`Getting ${collection}`);
+      setTopScores(documents);
+      console.log(topScores);
+    });
+    return () => unsub();
   }, []);
 
   const navHeight = 74.41;
@@ -62,9 +80,13 @@ const LevelOne = () => {
       setPositiveAlert(true);
       const timeTwo = Date.now();
       setTotalTime((timeTwo - timeOne) / 1000);
-      setTimeout(() => {
-        changeDifficulty("Normal");
-      }, 3000);
+      for (let i = 0; i < topScores.length; i++) {
+        if (topScores.length < 10) {
+          setShowForm(true);
+        } else if (totalTime < topScores[i].time) {
+          setShowForm(true);
+        }
+      }
     } else {
       setFade(1);
     }
@@ -76,7 +98,7 @@ const LevelOne = () => {
       <div className="red" fade={fade} onAnimationEnd={() => setFade(0)}>
         Try again!
       </div>
-      <HighScoreForm time={totalTime} level="levelOne" />
+      {showForm && <HighScoreForm time={totalTime} level="levelOne" />}
       <img
         ref={catPicRef}
         src={LevelOneBackground}

@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import LevelTwoBackground from "../assets/images/normal-level.jpg";
-import useLevelStore from "../contexts/LevelContext";
 import checkInside from "./mappingHelperFunction";
 import { db, auth } from "../firebase/init";
 import { getDocs, collection } from "firebase/firestore";
+import HighScoreForm from "./highScoreForm";
 
 const LevelTwo = () => {
   class Point {
@@ -13,11 +13,13 @@ const LevelTwo = () => {
       this.y = y;
     }
   }
-  const changeDifficulty = useLevelStore((state) => state.changeDifficulty);
 
   const [positiveAlert, setPositiveAlert] = useState(false);
   const [fade, setFade] = useState(0);
   const [coordinates, setCoordinates] = useState([]);
+  const [totalTime, setTotalTime] = useState(0);
+  const [showForm, setShowForm] = useState(false);
+  const [topScores, setTopScores] = useState([]);
 
   const catPicRef = useRef();
   const navHeight = 74.41;
@@ -30,8 +32,27 @@ const LevelTwo = () => {
     });
   };
 
+  const timeOne = Date.now();
+
   useEffect(() => {
     fetchPost();
+  }, []);
+
+  useEffect(() => {
+    const query = db.collection("levelTwo").orderBy("time", "asc").limit(10);
+
+    const unsub = query.onSnapshot((snap) => {
+      const documents = snap.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      console.log(`Getting ${collection}`);
+      setTopScores(documents);
+      console.log(topScores);
+    });
+    return () => unsub();
   }, []);
 
   const clickManager = (e) => {
@@ -52,9 +73,15 @@ const LevelTwo = () => {
 
     if (checkInside(catTarget, sides, target)) {
       setPositiveAlert(true);
-      setTimeout(() => {
-        changeDifficulty("Hard");
-      }, 3000);
+      const timeTwo = Date.now();
+      setTotalTime((timeTwo - timeOne) / 1000);
+      for (let i = 0; i < topScores.length; i++) {
+        if (topScores.length < 10) {
+          setShowForm(true);
+        } else if (totalTime < topScores[i].time) {
+          setShowForm(true);
+        }
+      }
     } else {
       setFade(1);
     }
@@ -65,6 +92,7 @@ const LevelTwo = () => {
       <div className="red" fade={fade} onAnimationEnd={() => setFade(0)}>
         Try again!
       </div>
+      {showForm && <HighScoreForm time={totalTime} level="levelTwo" />}
       <img
         ref={catPicRef}
         src={LevelTwoBackground}

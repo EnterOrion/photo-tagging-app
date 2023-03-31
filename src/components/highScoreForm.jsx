@@ -1,10 +1,18 @@
 import React, { useState } from "react";
+import useLevelStore from "../contexts/LevelContext";
 import { db, auth } from "../firebase/init";
 import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 
 const HighScoreForm = ({ level, time }) => {
-  const [showForm, setShowForm] = useState(true);
+  const changeDifficulty = useLevelStore((state) => state.changeDifficulty);
   const [formData, setFormData] = useState("");
+  const [showForm, setShowForm] = useState(true);
+  let nextLevel;
+  if (level === "levelOne") {
+    nextLevel = "Normal";
+  } else if (level === "levelTwo") {
+    nextLevel = "Hard";
+  }
 
   const handleChange = (e) => {
     setFormData(e.target.value);
@@ -18,6 +26,11 @@ const HighScoreForm = ({ level, time }) => {
         time: time,
       });
       console.log("Document written with ID: ", docRef.id);
+      if (level !== "levelThree") {
+        changeDifficulty(nextLevel);
+      } else {
+        setShowForm(false);
+      }
     } catch (e) {
       console.error("Error adding document: ", e);
     }

@@ -2,12 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import LevelThreeBackground from "../assets/images/hard-level.jpg";
 import { db, auth } from "../firebase/init";
 import { getDocs, collection } from "firebase/firestore";
+import HighScoreForm from "./highScoreForm";
 
 const LevelThree = () => {
   const [positiveAlert, setPositiveAlert] = useState(false);
   const [coordinates, setCoordinates] = useState([]);
   const [fade, setFade] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [totalTime, setTotalTime] = useState(0);
+  const [showForm, setShowForm] = useState(false);
+  const [topScores, setTopScores] = useState([]);
 
   const catPicRef = useRef();
   const navHeight = 74.41;
@@ -19,8 +23,27 @@ const LevelThree = () => {
     });
   };
 
+  const timeOne = Date.now();
+
   useEffect(() => {
     fetchPost();
+  }, []);
+
+  useEffect(() => {
+    const query = db.collection("levelThree").orderBy("time", "asc").limit(10);
+
+    const unsub = query.onSnapshot((snap) => {
+      const documents = snap.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      console.log(`Getting ${collection}`);
+      setTopScores(documents);
+      console.log(topScores);
+    });
+    return () => unsub();
   }, []);
 
   const clickManager = (e) => {
@@ -37,7 +60,20 @@ const LevelThree = () => {
       setPositiveAlert(true);
       setTimeout(() => {
         setGameOver(true);
-      }, 3000);
+      }, 1500);
+      const timeTwo = Date.now();
+      setTotalTime((timeTwo - timeOne) / 1000);
+      for (let i = 0; i < topScores.length; i++) {
+        if (topScores.length < 10) {
+          setTimeout(() => {
+            setShowForm(true);
+          }, 3500);
+        } else if (totalTime < topScores[i].time) {
+          setTimeout(() => {
+            setShowForm(true);
+          }, 3500);
+        }
+      }
     } else {
       setFade(1);
     }
@@ -49,6 +85,7 @@ const LevelThree = () => {
       <div className="red" fade={fade} onAnimationEnd={() => setFade(0)}>
         Try again!
       </div>
+      {showForm && <HighScoreForm time={totalTime} level="levelThree" />}
       {gameOver && <div className="green">All cats found! 😸</div>}
       <img
         ref={catPicRef}
