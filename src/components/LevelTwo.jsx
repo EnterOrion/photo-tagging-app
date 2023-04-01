@@ -5,8 +5,11 @@ import { db, auth } from "../firebase/init";
 import { getDocs, collection } from "firebase/firestore";
 import HighScoreForm from "./highScoreForm";
 import Navigation from "./Navigation";
+import useLevelStore from "../contexts/LevelContext";
 
 const LevelTwo = () => {
+  const changeDifficulty = useLevelStore((state) => state.changeDifficulty);
+
   class Point {
     //int x, y;
     constructor(x, y) {
@@ -75,12 +78,21 @@ const LevelTwo = () => {
     if (checkInside(catTarget, sides, target)) {
       setPositiveAlert(true);
       const timeTwo = Date.now();
-      setTotalTime((timeTwo - timeOne) / 1000);
+      let x = (timeTwo - timeOne) / 1000;
+      setTotalTime(x);
       for (let i = 0; i < topScores.length; i++) {
         if (topScores.length < 10) {
-          setShowForm(true);
-        } else if (totalTime < topScores[i].time) {
-          setShowForm(true);
+          setTimeout(() => {
+            setShowForm(true);
+          }, 3000);
+        } else if (x < topScores[i].time) {
+          setTimeout(() => {
+            setShowForm(true);
+          }, 3000);
+        } else if (i === 9) {
+          setTimeout(() => {
+            changeDifficulty("Hard");
+          }, 3000);
         }
       }
     } else {

@@ -63,13 +63,14 @@ const LevelThree = () => {
         setGameOver(true);
       }, 1500);
       const timeTwo = Date.now();
-      setTotalTime((timeTwo - timeOne) / 1000);
+      let x = (timeTwo - timeOne) / 1000;
+      setTotalTime(x);
       for (let i = 0; i < topScores.length; i++) {
         if (topScores.length < 10) {
           setTimeout(() => {
             setShowForm(true);
           }, 3500);
-        } else if (totalTime < topScores[i].time) {
+        } else if (x < topScores[i].time) {
           setTimeout(() => {
             setShowForm(true);
           }, 3500);
