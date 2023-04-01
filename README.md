@@ -17,10 +17,12 @@ https://enterorion.github.io/where-is-the-cat/
 
 ## Download
 
+```
 git clone https://github.com/EnterOrion/where-is-the-cat.git
 cd where-is-the-cat
 npm install
 npm run start
+```
 
 ## Attributions
 
