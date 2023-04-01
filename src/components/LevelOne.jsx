@@ -52,7 +52,6 @@ const LevelOne = () => {
       });
       console.log(`Getting ${collection}`);
       setTopScores(documents);
-      console.log(topScores);
     });
     return () => unsub();
   }, []);
@@ -62,7 +61,6 @@ const LevelOne = () => {
     const height = catPicRef.current.offsetHeight;
 
     const navHeight = navRef.current.offsetHeight;
-    console.log(navHeight);
 
     let relX = e.pageX / width;
     let relY = (e.pageY - navHeight) / height;

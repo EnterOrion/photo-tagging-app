@@ -32,7 +32,6 @@ const LevelTwo = () => {
     await getDocs(collection(db, "coordinates ")).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
       setCoordinates(newData);
-      console.log(coordinates);
     });
   };
 
@@ -54,7 +53,6 @@ const LevelTwo = () => {
       });
       console.log(`Getting ${collection}`);
       setTopScores(documents);
-      console.log(topScores);
     });
     return () => unsub();
   }, []);
@@ -64,7 +62,6 @@ const LevelTwo = () => {
     const height = catPicRef.current.offsetHeight;
 
     const navHeight = navRef.current.offsetHeight;
-    console.log(navHeight);
 
     let relX = e.pageX / width;
     let relY = (e.pageY - navHeight) / height;

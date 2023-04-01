@@ -22,7 +22,6 @@ const Navigation = ({ level }) => {
       });
       console.log(`Getting ${collection}`);
       setTopScores(documents);
-      console.log(topScores);
     });
     return () => unsub();
   }, []);
