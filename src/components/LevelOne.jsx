@@ -25,6 +25,7 @@ const LevelOne = () => {
   const [topScores, setTopScores] = useState([]);
 
   const catPicRef = useRef();
+  const navRef = useRef();
 
   const fetchPost = async () => {
     await getDocs(collection(db, "coordinates ")).then((querySnapshot) => {
@@ -56,11 +57,12 @@ const LevelOne = () => {
     return () => unsub();
   }, []);
 
-  const navHeight = 74.41;
-
   const clickManager = (e) => {
     const width = catPicRef.current.offsetWidth;
     const height = catPicRef.current.offsetHeight;
+
+    const navHeight = navRef.current.offsetHeight;
+    console.log(navHeight);
 
     let relX = e.pageX / width;
     let relY = (e.pageY - navHeight) / height;
@@ -106,7 +108,9 @@ const LevelOne = () => {
 
   return (
     <div>
-      <Navigation level="levelOne" />
+      <div ref={navRef}>
+        <Navigation level="levelOne" />
+      </div>
       {positiveAlert && <div className="green">Cat found! 🐱</div>}
       <div className="red" fade={fade} onAnimationEnd={() => setFade(0)}>
         Try again!
