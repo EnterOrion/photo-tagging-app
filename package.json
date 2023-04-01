@@ -1,6 +1,7 @@
 {
   "name": "photo-tagging-app",
   "private": true,
+  "homepage": "https://enterorion.github.io/where-is-the-cat/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
