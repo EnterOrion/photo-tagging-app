@@ -1,5 +1,7 @@
 # Where's the cat?
 
+![Screenshot of the website](./src/assets/images/catScreenshot.png?raw=true)
+
 ## About
 
 It's like finding Waldo, except for with cats. <br/>
