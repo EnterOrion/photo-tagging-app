@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useLevelStore from "../contexts/LevelContext";
-import { db, auth } from "../firebase/init";
-import { getDocs, collection } from "firebase/firestore";
+import { db } from "../firebase/init";
+import { collection } from "firebase/firestore";
 
 const Navigation = ({ level }) => {
   const [time, setTime] = useState(0);
@@ -10,6 +10,7 @@ const Navigation = ({ level }) => {
   const [topScores, setTopScores] = useState([]);
   const difficulty = useLevelStore((state) => state.difficulty);
 
+  // Get top 10 scores depending on the level
   useEffect(() => {
     const query = db.collection(level).orderBy("time", "asc").limit(10);
 
@@ -26,6 +27,7 @@ const Navigation = ({ level }) => {
     return () => unsub();
   }, []);
 
+  // Formats the time nicely
   const formatTime = (time) => {
     const getSeconds = `0${Math.round(time % 60)}`.slice(-2);
     const getMinutes = `0${Math.floor(time / 60) % 60}`.slice(-2);
@@ -33,28 +35,30 @@ const Navigation = ({ level }) => {
     return `${getMinutes}:${getSeconds}`;
   };
 
+  // Renders timer; goes up second by second
   useEffect(() => {
     setInterval(() => {
       setTime((prevTime) => prevTime + 1);
     }, 1000);
   }, []);
 
+  // Resets time when level changes
   useEffect(() => {
     setTime(0);
   }, [difficulty]);
 
+  // Manages the 'about' tab
   const clickManager = () => {
     setAbout(true);
   };
-
   const closeManager = () => {
     setAbout(false);
   };
 
+  // Manges the 'leaderboard' tab
   const boardManager = () => {
     setLeaderboard(true);
   };
-
   const closeBoard = () => {
     setLeaderboard(false);
   };

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import LevelThreeBackground from "../assets/images/hard-level.jpg";
-import { db, auth } from "../firebase/init";
+import { db } from "../firebase/init";
 import { getDocs, collection } from "firebase/firestore";
 import HighScoreForm from "./highScoreForm";
 import Navigation from "./Navigation";
@@ -14,9 +14,11 @@ const LevelThree = () => {
   const [showForm, setShowForm] = useState(false);
   const [topScores, setTopScores] = useState([]);
 
+  // Refs in order to get correct coords regardless of screen size
   const catPicRef = useRef();
   const navRef = useRef();
 
+  // Get coords from Firebase
   const fetchPost = async () => {
     await getDocs(collection(db, "coordinates ")).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
@@ -24,6 +26,7 @@ const LevelThree = () => {
     });
   };
 
+  // Initialize time at initial render (to compare to the time when the cat is 'found')
   const timeOne = Date.now();
 
   useEffect(() => {
@@ -52,21 +55,26 @@ const LevelThree = () => {
 
     const navHeight = navRef.current.offsetHeight;
 
+    // Get relative coords
     let relX = e.pageX / width;
     let relY = (e.pageY - navHeight) / height;
 
+    // Checks if user clicks close enough to the cat for it to count as 'found'
     const nearX = Math.abs(relX - coordinates[1]["x1"]) < 0.01;
     const nearY = Math.abs(relY - coordinates[1]["y1"]) < 0.01;
 
     if (nearX && nearY) {
+      // Display cat found alert and then 'game over' alert
       setPositiveAlert(true);
       setTimeout(() => {
         setGameOver(true);
       }, 1500);
+      // Records the time it took for the user to find the cat
       const timeTwo = Date.now();
       let x = (timeTwo - timeOne) / 1000;
       setTotalTime(x);
       for (let i = 0; i < topScores.length; i++) {
+        // Allow users to write to leaderboard if in top ten
         if (topScores.length < 10) {
           setTimeout(() => {
             setShowForm(true);
@@ -77,7 +85,9 @@ const LevelThree = () => {
           }, 3500);
         }
       }
-    } else {
+    }
+    // If cat not found, set negative alert
+    else {
       setFade(1);
     }
   };

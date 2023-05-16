@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { db, auth } from "../firebase/init";
+import { db } from "../firebase/init";
 import { getDocs, collection } from "firebase/firestore";
 import LevelOneBackground from "../assets/images/easy-level.jpg";
 import checkInside from "./mappingHelperFunction";
@@ -10,7 +10,7 @@ import useLevelStore from "../contexts/LevelContext";
 const LevelOne = () => {
   const changeDifficulty = useLevelStore((state) => state.changeDifficulty);
   class Point {
-    //int x, y;
+    // Int x, y
     constructor(x, y) {
       this.x = x;
       this.y = y;
@@ -24,9 +24,11 @@ const LevelOne = () => {
   const [showForm, setShowForm] = useState(false);
   const [topScores, setTopScores] = useState([]);
 
+  // Refs in order to get correct coords regardless of screen size
   const catPicRef = useRef();
   const navRef = useRef();
 
+  // Get coords from Firebase
   const fetchPost = async () => {
     await getDocs(collection(db, "coordinates ")).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
@@ -34,6 +36,7 @@ const LevelOne = () => {
     });
   };
 
+  // Initialize time at initial render (to compare to the time when the cat is 'found')
   const timeOne = Date.now();
 
   useEffect(() => {
@@ -62,10 +65,12 @@ const LevelOne = () => {
 
     const navHeight = navRef.current.offsetHeight;
 
+    // Get relative coords
     let relX = e.pageX / width;
     let relY = (e.pageY - navHeight) / height;
     let target = new Point(relX, relY);
 
+    // Creates an area that will trigger 'cat found' if the user clicks within it
     let catTarget = [
       new Point(coordinates[0]["x1"], coordinates[0]["y1"]),
       new Point(coordinates[0]["x2"], coordinates[0]["y2"]),
@@ -79,12 +84,15 @@ const LevelOne = () => {
     ];
     let sides = 9;
 
+    // Check if the user has clicked inside the target
     if (checkInside(catTarget, sides, target)) {
       setPositiveAlert(true);
+      // Records the time it took for the user to find the cat
       const timeTwo = Date.now();
       let x = (timeTwo - timeOne) / 1000;
       setTotalTime(x);
       for (let i = 0; i < topScores.length; i++) {
+        // Allow users to write to leaderboard if in top ten
         if (topScores.length < 10) {
           setTimeout(() => {
             setShowForm(true);
@@ -93,13 +101,17 @@ const LevelOne = () => {
           setTimeout(() => {
             setShowForm(true);
           }, 3000);
-        } else if (i === 9) {
+        }
+        // Otherwise go to next level
+        else if (i === 9) {
           setTimeout(() => {
             changeDifficulty("Normal");
           }, 3000);
         }
       }
-    } else {
+    }
+    // If cat not found, set negative alert
+    else {
       setFade(1);
     }
   };
